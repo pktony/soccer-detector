@@ -1,0 +1,13 @@
+path: /Users/psangwon/Documents/GitRepository/python/soccer-detector/dataset
+train: images/train
+val: images/valid
+
+nc: 4
+names: ['ball', 'goalkeeper', 'player', 'referee']
+
+roboflow:
+  workspace: soccer-detector
+  project: my-first-project-warh3
+  version: 1
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/soccer-detector/my-first-project-warh3/dataset/1
