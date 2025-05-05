@@ -1,4 +1,4 @@
-name: /Users/psangwon/Documents/GitRepository/python/soccer-detector/.conda
+name: soccer-detector
 channels:
   - defaults
   - https://repo.anaconda.com/pkgs/main
