@@ -28,6 +28,7 @@ def find_image_file(base_dir, filename):
             return os.path.join(root, filename)
     return None
 
+
 def parse_single_label_file(label_json_path, section_data, output_path):
     # 폴더 이름 추출: ~/framev3/001/Labels-v3.json → prefix = "001"
     dir_name = os.path.dirname(label_json_path)
@@ -42,11 +43,22 @@ def parse_single_label_file(label_json_path, section_data, output_path):
         height = info["imageMetadata"]["height"]
 
         label_lines = []
+        player_count = 0
+        referee_count = 0
+        ball_count = 0
         for box in info.get("bboxes", []):
             cls_name = box["class"]
             if cls_name not in CLASS_MAP:
                 continue
             cls_id = CLASS_MAP[cls_name]
+
+            if cls_id == 1 or cls_id == 2:
+                player_count += 1
+            if cls_id == 3:
+                referee_count += 1
+            if cls_id == 0:
+                ball_count += 1
+            
 
             pts = box["points"]
             x1, x2 = pts["x1"], pts["x2"]
@@ -57,7 +69,21 @@ def parse_single_label_file(label_json_path, section_data, output_path):
             w = (x2 - x1) / width
             h = (y2 - y1) / height
 
+            if not (
+                0 <= x_center <= 1 and
+                0 <= y_center <= 1 and
+                0 < w <= 1 and
+                0 < h <= 1
+                ):
+                print(f'[!] 유효한 라벨을 찾을 수 없음 - ({x_center} {y_center})        ({w} {h})')
+                continue
+
             label_lines.append(f"{cls_id} {x_center:.6f} {y_center:.6f} {w:.6f} {h:.6f}")
+
+        # 잘못된 라벨일 경우: 건너뜀 (파일 저장 & 이미지 복사 X)
+        if len(label_lines) == 0 or player_count > 22 or referee_count > 3 or ball_count > 1:
+            print(f"[!] {prefix}_{img_name} → {len(label_lines)} player: {player_count} referree: {referee_count} ball:{ball_count}")
+            continue
 
         # 파일 이름 변경 (충돌 방지)
         unique_img_name = f"{prefix}_{img_name}"
