@@ -147,7 +147,27 @@ patience: 50
   * auto orientation : 사진의 메타 데이터와 실제 방향이 잘못된 경우 보정을 위해
 
 
+#### Result
+```
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+    121/200      3.59G     0.9012     0.4655     0.8437         34        640: 100%|██████████| 71/71 [00:22<00:00,  3.12it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100%|██████████| 9/9 [00:02<00:00,  3.20it/s]                   all        258       1694      0.892       0.89      0.921       0.62
+EarlyStopping: Training stopped early as no improvement observed in last 50 epochs. Best results observed at epoch 71, best model saved as best.pt.
+To update EarlyStopping(patience=50) pass a new patience value, i.e. `patience=300` or use `patience=0` to disable EarlyStopping.
+
+Model summary (fused): 72 layers, 3,006,428 parameters, 0 gradients, 8.1 GFLOPs
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100%|██████████| 9/9 [00:05<00:00,  1.67it/s]
+                   all        258       1694      0.924      0.849      0.927      0.629
+                  ball        253        523      0.937      0.911      0.938      0.719
+            goalkeeper         37         37      0.884      0.821      0.926      0.589
+                player         51       1012      0.962      0.945       0.98      0.692
+               referee         51        122      0.912      0.721      0.866      0.519
+```
+
+* player와 ball은 거의 완벽에 가까운 성능을 보여줌.
+* goalkeeper도 좋은 성능이지만, 표본 수(37개)가 적어서 일반화에 주의.
+* referee는 상대적으로 재현율과 mAP가 낮은데, 아마 이미지 내 등장 비율이 적거나 위치가 다양해서 그럴 수 있음.
 
 ## 참고
-
+* [SoccerNet] (https://www.soccer-net.org/tasks/tracking)
 * [Ultranalytics YOLO v8](https://docs.ultralytics.com/ko/models/yolov8/)
