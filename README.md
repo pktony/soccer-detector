@@ -168,6 +168,43 @@ Model summary (fused): 72 layers, 3,006,428 parameters, 0 gradients, 8.1 GFLOPs
 * goalkeeper도 좋은 성능이지만, 표본 수(37개)가 적어서 일반화에 주의.
 * referee는 상대적으로 재현율과 mAP가 낮은데, 아마 이미지 내 등장 비율이 적거나 위치가 다양해서 그럴 수 있음.
 
+## v4.1
+
+* SoccerNet에서 가져온 데이터로 fine tuning
+
+#### Hyper Parameter
+```yaml
+epochs: 200
+batch: 16
+imgsz: 640
+patience: 50
+```
+
+#### Result
+
+* 전체적으로 성능이 줄었지만, 몇 개 샘플로 테스트해보면 더 잘 검출함
+  * precision은 오히려 떨어지면서, background를 오탐하는 경우가 늘어남
+  * 아예 검출을 못하던 물체까지 탐지할 수 있게 됨
+* 원본 이미지 파일을 640으로 압축하다보니 작은 물체(공), 초점이 흔들린 물체 
+
+```
+Model summary (fused): 72 layers, 3,006,428 parameters, 0 gradients, 8.1 GFLOPs
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100%|██████████| 12/12 [00:10<00:00,  1.19it/s]
+                   all        377       4030      0.734      0.657      0.691      0.471
+                  ball        285        285      0.825      0.368      0.473      0.271
+            goalkeeper        256        265      0.468      0.592      0.526      0.364
+                player        372       3244      0.863      0.894      0.928      0.665
+               referee        179        236      0.778      0.773      0.835      0.583
+```
+
+| 지표                | fine tune (`v4`) | SoccerNet fine-tune (`v4.1`) | 변화 추이   |
+| ----------------- | ----------- | ---------------- | ------- |
+| **mAP50 (전체)**    | 0.927       | 0.691            | ⬇ 크게 하락 |
+| **mAP50-95**      | 0.629       | 0.471            | ⬇ 하락    |
+| **Box Precision** | 0.924       | 0.734            | ⬇ 하락    |
+| **Recall**        | 0.849       | 0.657            | ⬇ 하락    |
+
+
 ## 참고
 * [SoccerNet] (https://www.soccer-net.org/tasks/tracking)
 * [Ultranalytics YOLO v8](https://docs.ultralytics.com/ko/models/yolov8/)
