@@ -138,6 +138,16 @@ patience: 50
 
 ---
 
+### v4
+
+* 동일한 Roboflow 데이터셋 사용
+  * 학습 / 검증 데이터 비중을 변경하고, 재 학습 (train ⬆️)
+* Pre-processing
+  * 640x640 stretch
+  * auto orientation : 사진의 메타 데이터와 실제 방향이 잘못된 경우 보정을 위해
+
+
+
 ## 참고
 
 * [Ultranalytics YOLO v8](https://docs.ultralytics.com/ko/models/yolov8/)
