@@ -11,4 +11,4 @@ def download_action_spotting(localPath):
 def download_tracking(localPath):
     mySoccerNetDownloader=SoccerNetDownloader(LocalDirectory=localPath)
 
-    mySoccerNetDownloader.downloadGames(files=["tracking"], split=["train","valid"], task="frames")
+    mySoccerNetDownloader.downloadDataTask(split=["train","valid", "challage"], task="tracking")
