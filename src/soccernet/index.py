@@ -1,5 +1,5 @@
-from unzip import unzip_soccerNet
-from parse_labels import parse_labels_recursive
+from soccernet.unzip import unzip_soccerNet
+from soccernet.parse_labels_spotting import parse_labels_recursive
 from downloader import download_action_spotting
 
 
