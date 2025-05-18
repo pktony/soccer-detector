@@ -4,7 +4,7 @@ model = YOLO('yolov8n.pt', verbose=True)
 
 try :
     results = model.train(
-        data="./dataset/data.yaml",
+        data="./roboflow/football-players-detection/data.yaml",
         epochs=200,
         batch=512,
         lr0=0.0001,
@@ -15,3 +15,4 @@ try :
     print(results)
 except Exception as e :
     print(e)
+
