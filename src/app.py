@@ -22,9 +22,9 @@ from tracker import Tracker
 
 video_frames = read_video('./08fd33_4.mp4')
 
-tracker = Tracker(model_path='./train/train_results_v6/train6/weights/best.pt')
-tracks = tracker.get_object_tracks(video_frames)
+tracker = Tracker(model_path='./train/train6/weights/best.pt')
+tracks = tracker.get_object_tracks(video_frames, read_from_stub = True, stub_path = 'stubs/cam_move.pkl')
 
 output_video_frames = tracker.draw_annotations(video_frames, tracks)
 
-save_video(video_frames, './result.mp4')
+save_video(output_video_frames, './result-11.mp4')
